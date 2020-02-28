@@ -1,0 +1,64 @@
+.header {
+    display: flex;
+    flex-flow: row-reverse wrap;
+    justify-content: space-around;
+    align-items: center;
+    width: 100%;
+    background-color: #0E115A;
+    color: #E3E3E3;
+}
+
+body {
+    margin: 0;
+    padding: 0;
+    background-color: #EEEEDB;
+}
+
+.wrapper {
+    display: flex;
+    justify-content: center;
+    width: 100%;
+}
+
+.content {
+    display: flex;
+    flex-flow: row wrap;
+    width: 960px;
+    min-width:500;
+}
+
+.profile {
+    display: flex;
+    flex-direction: column;
+    width: 33%;
+}
+
+.caption {
+    background-color: oldlace;
+    max-width: 150px;
+}
+
+.work-experience {
+    background-color: oldlace;
+    width: 66%;
+}
+
+@media screen and (max-width: 1000px) {
+    .wrapper {
+        justify-content: center;
+    }
+    .content {
+        flex-flow:column wrap;
+         min-width:500px;
+         align-items: center;
+    }
+    .profile {
+        flex-flow: row;
+        width: 75%;
+        justify-content: space-around;
+    }
+    .caption {
+        max-height: 50px;
+    }
+}
+
