@@ -5,12 +5,14 @@ body {
   color: #444;
   padding: 0 10px;
   background: #eee;
+  display: flex;
+  align-items: center;
 }
 
 h1,
 h2,
 h3 {
-  line-height: 1.2
+  line-height: 1.2;
 }
 
 /* End document default styles */
