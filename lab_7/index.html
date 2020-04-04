@@ -1,0 +1,98 @@
+<!DOCTYPE html>
+<html lang="en">
+  <head>
+    <title>Maps Lab</title>
+    <link rel="stylesheet" type="text/css" href="./styles.css" />
+    <link
+      rel="stylesheet"
+      href="https://unpkg.com/leaflet@1.6.0/dist/leaflet.css"
+      integrity="sha512-xwE/Az9zrjBIphAcBb3F6JVqxf46+CDLwfLMHloNu6KEQCAWi6HcDUbeOfBIptF7tcCzusKFjFw2yuvEpDL9wQ=="
+      crossorigin=""
+    />
+    <script
+      src="https://unpkg.com/leaflet@1.6.0/dist/leaflet.js"
+      integrity="sha512-gZwIG9x3wUXg2hdXF6+rVkLF/0Vi9U8D2Ntg4Ga5I5BZpVkVxlJWbSQtXPSiUTtC0TjtGOmxa1AJPuV0CPthew=="
+      crossorigin=""
+    ></script>
+    <style>
+      #map1 {
+        display: flex;
+        width: 640px;
+        height: 480px;
+        align-self: start;
+      }
+      .leaflet-popup-content-wrapper {
+        background-color:palevioletred;
+        min-width: 75px;
+        min-height: 55px;
+        border-style: dotted;
+      }
+    </style>
+  </head>
+
+  <body>
+    <div class="container">
+      <div class="wrapper">
+        <div class="header">Frontend Libraries: Maps Lab</div>
+        <div class="content">
+          <div id="map1">
+
+          </div>
+        </div>
+        <div class="footer">Make some markers work!</div>
+      </div>
+    </div>
+    <script>
+        const mymap = L.map('map1').setView([38.9, -76.9], 13);
+        L.tileLayer('https://api.mapbox.com/styles/v1/{id}/tiles/{z}/{x}/{y}?access_token={accessToken}', {
+        attribution: 'Map data &copy; <a href="https://www.openstreetmap.org/">OpenStreetMap</a> contributors, <a href="https://creativecommons.org/licenses/by-sa/2.0/">CC-BY-SA</a>, Imagery © <a href="https://www.mapbox.com/">Mapbox</a>',
+          maxZoom: 18,
+          id: 'mapbox/streets-v11',
+          tileSize: 512,
+          zoomOffset: -1,
+          accessToken: 'pk.eyJ1IjoiZHdpdiIsImEiOiJjazhqOW85b2MwNzk1M2xwOGt1dDdwb2p2In0.r_eJVyGrOJjHSpNknEsY4g'
+        }).addTo(mymap);
+        //const mark1 = L.marker([43.6246, -79.3871]).addTo(mymap);
+        const eppley = L.marker([38.9936034,-76.9473623,17]).addTo(mymap);
+        const str1 = '<b>Eppley</b><br>This is Eppley Recreation Center.';
+        console.log(eppley);
+        //L.marker([39.9936034,-76.9473623,17]).addTo(mymap);
+        eppley.bindPopup(str1).openPopup();
+        somePoints = fetch('https://data.princegeorgescountymd.gov/resource/umjn-t2iz.json')
+          .then((response) => {
+            return response.json();
+          })
+          .then((data) => {
+            let myPoints = [];
+            const my_shops = [272, 2139, 1597] //some of my favorite near/on campus dining
+            data.forEach(location => {
+              if (my_shops.includes(parseInt(location.establishment_id))) {
+                //myPoints.push(location);
+                console.log(location.geocoded_column_1.coordinates);
+                const myMark = [
+                  parseFloat(location.geocoded_column_1.coordinates[0]),
+                  parseFloat(location.geocoded_column_1.coordinates[1]),
+                  location.name
+                ];
+                L.marker([myMark[1],myMark[0]]).addTo(mymap).bindPopup(myMark[2]).openPopup();
+              //   L.marker([
+              //   location[0],
+              //   location[1]
+              // ]).addTo(mymap).bindPopup(`<b>${location[2]}</b>`);
+              //this took me far longer than it should have, not for lack of knowledge or effort, but because 
+              //For SOME reason PG puts their data in long/lat and I took ages to realize my points were in Antarctica
+              //Also, I don't know how you manage to give me work that's applicable to my job, but I just finished a map project
+              //Today too. Like 3 weeks earlier than I thought I would at that. Go figure, huh?
+              //That reminds me, I needed to reach out to you about credit for work don't I...
+              //I'm sorry, this whole plague thing really threw me off.
+              //Regardless, have a good day and tell Dr. S, I say hi!
+                myPoints.push(myMark);
+                my_shops.splice(my_shops.indexOf(parseFloat(location.establishment_id)),1);
+              }
+            })
+            console.log(myPoints);
+          })
+        console.log(somePoints);
+    </script>
+  </body>
+</html>
