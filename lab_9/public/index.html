@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="en">
+
+<head>
+  <title>Dennis' Lab Page</title>
+  <link rel="stylesheet" type="text/css" href="./styles.css">
+  <script src="https://canvasjs.com/assets/script/canvasjs.min.js"></script>
+</head>
+
+<body>
+  <div class="container">
+    <div class="wrapper">
+      <div class="header">Dennis Replaced Me With His Lab Page</div>
+      <div class="content">
+        <div id="chartContainer" style="height: 370px; width: 15000px;">
+          THE CHART WILL NOT POPULATE AND I'M HEATED BECAUSE OF IT.
+        </div>
+      </div>
+      <div class="footer"></div>
+    </div>
+  </div>
+  <script>
+    fetch('/api') // Rather than fetching from PG County, we're going to fetch from our own server.
+      .then((res) => res.json())
+      .then((res) => {
+        // Here's where your chart code should go.
+        console.log(res);
+        const chart = new CanvasJS.Chart('chartContainer', {
+          animationEnabled: true,
+          title: {
+            text: 'Types of Restaurants in PG County',
+            horizontalAlign: 'left'
+          },
+          data: [{
+            type: 'doughnut',
+            startAngle: 60,
+            // innerRadius: 60,
+            indexLabelFontSize: 17,
+            indexLabel: '{label} - #percent%',
+            toolTipContent: '<b>{label}:</b> {y} (#percent%)',
+            dataPoints: res
+          }]
+        });
+        chart.render();
+        //I think your lint only works with mac because it's expecting LF at the 
+        //End of each line. Either that or I have a mistake on EVERY line and
+        //honestly both are pretty viable options.
+      });
+  </script>
+</body>
+
+</html>
